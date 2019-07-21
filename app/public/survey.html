@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Survey</title>
+<script src="https://code.jquery.com/jquery.js"></script>
+</head>
+<body>
+
+<h1>Take the Survey!</h1>
+
+<h3>Question 1: You often times find yourself bird-watching.</h3>
+<select id="q1">
+    <option value="1">Strongly Disagree</option>
+    <option value="2">Disagree</option>
+    <option value="3">Unsure</option>
+    <option value="4">Agree</option>
+    <option value="5">Strongly Agree</option>
+</select>
+
+<h3>Question 2: You can't help but chirp at inappropriate times.</h3>
+<select id="q2">
+    <option value="1">Strongly Disagree</option>
+    <option value="2">Disagree</option>
+    <option value="3">Unsure</option>
+    <option value="4">Agree</option>
+    <option value="5">Strongly Agree</option>
+</select>
+
+<h3>Question 3: When you're several stories up, you feel the urge to jump and fly.</h3>
+<select id="q3">
+    <option value="1">Strongly Disagree</option>
+    <option value="2">Disagree</option>
+    <option value="3">Unsure</option>
+    <option value="4">Agree</option>
+    <option value="5">Strongly Agree</option>
+</select>
+
+<button id="submitButton" type="submit">Submit</button>
+
+<div id="matchModal">
+    <div id="innerModal">
+        <h2>Your Match:</h2>
+        <h3 id="matchName"></h3>
+        <h3 id="matchImg"></h3>
+    </div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+$("#submitButton").on("click", function(event) {
+    event.preventDefault();
+
+    var clientChoice = {
+        scores: [
+            $("#q1").val(),
+            $("#q2").val(),
+            $("#q3").val()
+        ]}
+
+    $.post("/api/people", clientChoice, function(topMatch) {
+
+        $("#matchName").text(topMatch.name);
+        $("#matchImg").attr("src", topMatch.photo);
+
+        $("#matchModal").modal("toggle")
+    })
+});
+    
+</script>
